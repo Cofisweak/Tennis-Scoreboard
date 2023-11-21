@@ -4,9 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        <%@include file='./style.css' %>
-    </style>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/style.css">
     <title>New match | Tennis Scoreboard</title>
 </head>
 <body>

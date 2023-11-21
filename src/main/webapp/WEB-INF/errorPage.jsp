@@ -9,8 +9,8 @@
 </head>
 <body>
 <div class="container">
-    <h1 class="page-title">404</h1>
-    <p>Page not found</p>
+    <h1 class="page-title">ERROR ${requestScope['jakarta.servlet.error.status_code']}</h1>
+    <p>${requestScope['jakarta.servlet.error.message']}</p>
 </div>
 </body>
 </html>
