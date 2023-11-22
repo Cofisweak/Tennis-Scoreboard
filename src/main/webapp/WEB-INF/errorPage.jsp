@@ -8,9 +8,12 @@
     <title>Tennis Scoreboard</title>
 </head>
 <body>
+<header class="header">
+    <a class="header__link" href="/">Tennis Scoreboard</a>
+</header>
 <div class="container">
     <h1 class="page-title">ERROR ${requestScope['jakarta.servlet.error.status_code']}</h1>
-    <p>${requestScope['jakarta.servlet.error.message']}</p>
+    <p style="text-align: center">${requestScope['jakarta.servlet.error.message']}</p>
 </div>
 </body>
 </html>

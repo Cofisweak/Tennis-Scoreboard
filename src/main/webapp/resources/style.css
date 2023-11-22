@@ -1,6 +1,4 @@
 body {
-    padding: 0;
-    margin: 0;
     background-color: aqua;
     min-height: 100vh;
     font-family: "Trebuchet MS", sans-serif;
@@ -10,8 +8,23 @@ body {
     justify-content: center;
 }
 
+.header {
+    height: 44px;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    font-size: 20px;
+    font-weight: 700;
+    background-color: aquamarine;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
 * {
     box-sizing: border-box;
+    padding: 0;
+    margin: 0;
 }
 
 a {
@@ -20,6 +33,9 @@ a {
 }
 
 .container {
+    margin-top: 44px;
+    margin-left: 0;
+    width: 100%;
     min-width: 360px;
     max-width: 1024px;
     display: flex;

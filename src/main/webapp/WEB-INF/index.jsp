@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/style.css">
 </head>
 <body>
+<header class="header">
+    <a class="header__link" href="/">Tennis Scoreboard</a>
+</header>
 <div class="container">
     <h1 class="page-title">Tennis Scoreboard</h1>
     <section class="menu">

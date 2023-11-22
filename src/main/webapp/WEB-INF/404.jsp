@@ -8,6 +8,9 @@
     <title>Tennis Scoreboard</title>
 </head>
 <body>
+<header class="header">
+    <a class="header__link" href="/">Tennis Scoreboard</a>
+</header>
 <div class="container">
     <h1 class="page-title">404</h1>
     <p>Page not found</p>

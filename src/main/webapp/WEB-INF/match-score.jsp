@@ -8,6 +8,9 @@
     <title>Match | Tennis Scoreboard</title>
 </head>
 <body>
+<header class="header">
+    <a class="header__link" href="/">Tennis Scoreboard</a>
+</header>
 <div class="container">
     <h1 class="page-title">MATCH</h1>
     <section class="match">
