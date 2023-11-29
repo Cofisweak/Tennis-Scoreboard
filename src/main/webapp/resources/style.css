@@ -30,6 +30,7 @@ body {
 a {
     color: inherit;
     text-decoration: none;
+    display: inline-block;
 }
 
 .container {
@@ -45,7 +46,6 @@ a {
 }
 
 .page-title {
-    margin-bottom: 20px;
     font-size: 36px;
 }
 
@@ -55,6 +55,7 @@ a {
     justify-content: center;
     flex-direction: column;
     gap: 10px;
+    margin-top: 40px;
 }
 
 .menu-item {
@@ -80,6 +81,7 @@ a {
 }
 
 .form {
+    margin-top: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -87,19 +89,32 @@ a {
     gap: 16px;
 }
 
-.form__button {
+.button {
     border: 1px solid rgb(128, 128, 128);
     background-color: aquamarine;
-    padding: 10px;
+    padding: 10px 20px;
     border-radius: 8px;
     transition: 0.3s;
-    font-size: 24px;
+    font-size: 20px;
     line-height: 1;
     font-family: "Trebuchet MS", sans-serif;
     color: rgb(82, 76, 76);
 }
 
-.form__button:hover {
+.button-wrapper {
+    margin-top: 30px;
+}
+
+.button--bold {
+    font-weight: 700;
+}
+
+.button--small {
+    font-size: 16px;
+    padding: 10px 12px;
+}
+
+.button:hover {
     scale: 0.95;
     opacity: 0.9;
 }
@@ -134,7 +149,7 @@ a {
 
 .table__field {
     text-align: center;
-    padding: 10px;
+    padding: 10px 20px;
     border-bottom: 1px solid rgb(128, 128, 128);
 }
 
@@ -150,11 +165,11 @@ a {
     margin-top: 10px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: baseline;
 }
 
-.match-buttons .form__button {
-    font-size: 16px;
+.matches {
+    margin-top: 20px;
 }
 
 .search-form {
@@ -232,10 +247,6 @@ a {
 
 }
 
-.pagination__button:first-child, .pagination__button:last-child {
-    margin: 0 16px;
-}
-
 .pagination__button:hover {
     scale: 0.95;
     opacity: 0.9;
@@ -247,4 +258,25 @@ a {
 
 .pagination__button--selected {
     background-color: rgb(93, 244, 194);
+}
+
+.text {
+    margin: 20px 0;
+}
+
+.text--bold {
+    font-weight: 700;
+    font-size: 24px;
+}
+
+.text--center {
+    text-align: center;
+}
+
+.match-finished-block {
+    text-align: center;
+}
+
+.mt10 {
+    margin-top: 10px;
 }

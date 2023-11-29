@@ -9,7 +9,7 @@
 </head>
 <body>
 <header class="header">
-    <a class="header__link" href="/">Tennis Scoreboard</a>
+    <a class="header__link" href="${pageContext.request.contextPath}/">Tennis Scoreboard</a>
 </header>
 <div class="container">
     <h1 class="page-title">Tennis Scoreboard</h1>

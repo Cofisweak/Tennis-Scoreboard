@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,20 +9,31 @@
 </head>
 <body>
 <header class="header">
-    <a class="header__link" href="/">Tennis Scoreboard</a>
+    <a class="header__link" href="${pageContext.request.contextPath}/">Tennis Scoreboard</a>
 </header>
 <div class="container">
     <h1 class="page-title">New match</h1>
     <form class="form" method="post">
         <div class="form__block">
-            <label class="form__label" for="firstPlayer">First Player: </label>
-            <input class="form__input" required id="firstPlayer" type="text" name="firstPlayer" placeholder="Player 1"/>
+            <label class="form__label" for="first_player">First Player: </label>
+            <input class="form__input" required id="first_player" type="text" name="first_player" placeholder="Player 1"/>
         </div>
         <div class="form__block">
-            <label class="form__label" for="secondPlayer">Second Player: </label>
-            <input class="form__input" required id="secondPlayer" type="text" name="secondPlayer" placeholder="Player 2"/>
+            <label class="form__label" for="second_player">Second Player: </label>
+            <input class="form__input" required id="second_player" type="text" name="second_player"
+                   placeholder="Player 2"/>
         </div>
-        <input class="form__button" type="submit" value="Start"/>
+        <div>
+            <div>
+                <input type="radio" id="three_sets" name="sets_count" value="3" required>
+                <label for="three_sets">3 sets</label><br>
+            </div>
+            <div class="mt10">
+                <input type="radio" id="five_sets" name="sets_count" value="5">
+                <label for="five_sets">5 sets</label><br>
+            </div>
+        </div>
+        <input class="button" type="submit" value="Start"/>
     </form>
 </div>
 </body>

@@ -15,12 +15,11 @@
     </servlet-mapping>
 
     <error-page>
-        <exception-type>java.lang.Exception</exception-type>
-        <location>/WEB-INF/errorPage.jsp</location>
+        <location>/WEB-INF/error-page.jsp</location>
     </error-page>
     <error-page>
-        <error-code>404</error-code>
-        <location>/WEB-INF/404.jsp</location>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/WEB-INF/internal-error-page.jsp</location>
     </error-page>
 
     <servlet-mapping>
