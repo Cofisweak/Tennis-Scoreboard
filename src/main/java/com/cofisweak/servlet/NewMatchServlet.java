@@ -30,7 +30,7 @@ public class NewMatchServlet extends HttpServlet {
         if(addMatchDto == null) return;
 
         UUID uuid = ongoingMatchesService.createMatch(addMatchDto);
-        resp.sendRedirect("/match-score?uuid=" + uuid);
+        resp.sendRedirect(req.getContextPath() + "/match-score?uuid=" + uuid);
     }
 
     private PersistMatchDto getNewMatchDto(String firstPlayerName, String secondPlayerName, String setsCountString, HttpServletResponse resp) throws IOException {
