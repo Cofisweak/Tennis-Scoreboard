@@ -43,8 +43,8 @@ public class MatchScoreCalculationService {
         playerScore.incrementPoints();
         if (playerScore.getPoints() >= POINTS_TO_WIN_TIE_BRAKE && match.getPointsDifference() >= 2) {
             match.resetPoints();
-            countGame(match, playerScore);
             match.setMatchStatus(MatchStatus.ONGOING);
+            countGame(match, playerScore);
         }
     }
 

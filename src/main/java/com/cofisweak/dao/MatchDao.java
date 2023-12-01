@@ -32,11 +32,7 @@ public class MatchDao {
 
     public List<Match> loadMatches(int page, String searchQuery) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            List<Predicate> where = new ArrayList<>();
-            if (searchQuery != null) {
-                where.add(QMatch.match.player1.name.containsIgnoreCase(searchQuery));
-                where.add(QMatch.match.player2.name.containsIgnoreCase(searchQuery));
-            }
+            List<Predicate> where = getPredicates(searchQuery);
 
             return new JPAQuery<Match>(session)
                     .select(QMatch.match)
@@ -51,13 +47,18 @@ public class MatchDao {
         }
     }
 
+    private static List<Predicate> getPredicates(String searchQuery) {
+        List<Predicate> where = new ArrayList<>();
+        if (searchQuery != null) {
+            where.add(QMatch.match.player1.name.containsIgnoreCase(searchQuery));
+            where.add(QMatch.match.player2.name.containsIgnoreCase(searchQuery));
+        }
+        return where;
+    }
+
     public int getPageCountByQuery(String searchQuery) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            List<Predicate> where = new ArrayList<>();
-            if (searchQuery != null) {
-                where.add(QMatch.match.player1.name.containsIgnoreCase(searchQuery));
-                where.add(QMatch.match.player2.name.containsIgnoreCase(searchQuery));
-            }
+            List<Predicate> where = getPredicates(searchQuery);
             Long result = new JPAQuery<Long>(session)
                     .select(QMatch.match.count())
                     .from(QMatch.match)

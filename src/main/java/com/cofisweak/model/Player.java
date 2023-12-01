@@ -12,9 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Table(name = "players", indexes = {@Index(columnList = "name")})
-@NamedQuery(name = "getByName", query = "from Player where name = :name")
 public class Player {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
