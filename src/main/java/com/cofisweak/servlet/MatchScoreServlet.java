@@ -31,6 +31,10 @@ public class MatchScoreServlet extends HttpServlet {
         String uuidString = req.getParameter("uuid");
         Match match = getMatch(resp, uuidString);
         if (match == null) return;
+        forwardToMatchScorePage(req, resp, match);
+    }
+
+    private static void forwardToMatchScorePage(HttpServletRequest req, HttpServletResponse resp, Match match) throws ServletException, IOException {
         MatchScoreDto matchScoreDto = MatchMapper.mapToMatchScoreDto(match);
         req.setAttribute("matchScoreDto", matchScoreDto);
         req.getRequestDispatcher("/WEB-INF/match-score.jsp").forward(req, resp);
@@ -40,27 +44,33 @@ public class MatchScoreServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String playerId = req.getParameter("player_id");
         String uuidString = req.getParameter("uuid");
-        if (Utils.isFieldNotFilled(playerId) &&
-            !playerId.trim().equals(PLAYER_1_ID) && !playerId.trim().equals(PLAYER_2_ID)) {
+        if (isValidPlayerId(playerId)) {
             resp.sendError(400, "Player not specified");
             return;
         }
         Match match = getMatch(resp, uuidString);
         if (match == null) return;
-        if (playerId.equals(PLAYER_1_ID)) {
-            matchScoreCalculationService.countPoint(match, PlayerNumber.FIRST_PLAYER);
-        } else {
-            matchScoreCalculationService.countPoint(match, PlayerNumber.SECOND_PLAYER);
-        }
+
+        PlayerNumber playerNumber = getPlayerNumber(playerId);
+        matchScoreCalculationService.countPoint(match, playerNumber);
 
         if (match.getMatchStatus() == MatchStatus.FINISHED) {
             ongoingMatchesService.endMatch(UUID.fromString(uuidString));
         }
 
-        MatchScoreDto matchScoreDto = MatchMapper.mapToMatchScoreDto(match);
-        req.setAttribute("matchScoreDto", matchScoreDto);
+        forwardToMatchScorePage(req, resp, match);
+    }
 
-        req.getRequestDispatcher("/WEB-INF/match-score.jsp").forward(req, resp);
+    private PlayerNumber getPlayerNumber(String playerId) {
+        return playerId.equals(PLAYER_1_ID) ?
+                PlayerNumber.FIRST_PLAYER :
+                PlayerNumber.SECOND_PLAYER;
+    }
+
+    private static boolean isValidPlayerId(String playerId) {
+        return Utils.isFieldNotFilled(playerId) &&
+               !playerId.trim().equals(PLAYER_1_ID) &&
+               !playerId.trim().equals(PLAYER_2_ID);
     }
 
     private Match getMatch(HttpServletResponse resp, String uuidString) throws IOException {

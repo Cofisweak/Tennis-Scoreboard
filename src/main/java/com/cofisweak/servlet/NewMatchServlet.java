@@ -34,22 +34,8 @@ public class NewMatchServlet extends HttpServlet {
     }
 
     private PersistMatchDto getNewMatchDto(String firstPlayerName, String secondPlayerName, String setsCountString, HttpServletResponse resp) throws IOException {
-        if (Utils.isFieldNotFilled(firstPlayerName)) {
-            resp.sendError(400, "First player name required");
+        if (isValidParameters(firstPlayerName, secondPlayerName, setsCountString, resp))
             return null;
-        }
-        if (Utils.isFieldNotFilled(secondPlayerName)) {
-            resp.sendError(400, "Second player name required");
-            return null;
-        }
-        if (Utils.isFieldNotFilled(setsCountString)) {
-            resp.sendError(400, "Sets count required");
-            return null;
-        }
-        if (firstPlayerName.trim().equalsIgnoreCase(secondPlayerName.trim())) {
-            resp.sendError(400, "Players must be different");
-            return null;
-        }
         int setsCount;
         try {
             setsCount = Integer.parseInt(setsCountString.trim());
@@ -58,9 +44,29 @@ public class NewMatchServlet extends HttpServlet {
                 return null;
             }
             return new PersistMatchDto(firstPlayerName.trim(), secondPlayerName.trim(), setsCount);
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             resp.sendError(400, "The number of sets should be 3 or 5");
             return null;
         }
+    }
+
+    private static boolean isValidParameters(String firstPlayerName, String secondPlayerName, String setsCountString, HttpServletResponse resp) throws IOException {
+        if (Utils.isFieldNotFilled(firstPlayerName)) {
+            resp.sendError(400, "First player name required");
+            return false;
+        }
+        if (Utils.isFieldNotFilled(secondPlayerName)) {
+            resp.sendError(400, "Second player name required");
+            return false;
+        }
+        if (Utils.isFieldNotFilled(setsCountString)) {
+            resp.sendError(400, "Sets count required");
+            return false;
+        }
+        if (firstPlayerName.trim().equalsIgnoreCase(secondPlayerName.trim())) {
+            resp.sendError(400, "Players must be different");
+            return false;
+        }
+        return true;
     }
 }

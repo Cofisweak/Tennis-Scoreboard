@@ -7,6 +7,7 @@ import com.querydsl.jpa.impl.JPAQuery;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
+import org.hibernate.exception.ConstraintViolationException;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PlayerService {
@@ -16,17 +17,18 @@ public class PlayerService {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             session.beginTransaction();
 
-            Player player = new JPAQuery<Player>(session)
-                    .select(QPlayer.player)
-                    .from(QPlayer.player)
-                    .where(QPlayer.player.name.eq(name))
-                    .fetchFirst();
-
-            if (player == null) {
+            Player player;
+            try {
                 player = Player.builder()
                         .name(name)
                         .build();
                 session.persist(player);
+            } catch (ConstraintViolationException ex) {
+                player = new JPAQuery<Player>(session)
+                        .select(QPlayer.player)
+                        .from(QPlayer.player)
+                        .where(QPlayer.player.name.eq(name))
+                        .fetchFirst();
             }
             session.getTransaction().commit();
             return player;
