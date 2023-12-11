@@ -1,6 +1,15 @@
 # Tennis Scoreboard
 A web application that implements a scoreboard for a tennis match.
 
+### Deployment
+- Install H2 database
+- Install Tomcat
+- Configure hibernate.cfg.xml
+    - set url
+    - set username
+    - set password
+- Install .war artifact
+
 ### Main page
 Links leading to the pages for the new match and the list of completed matches
 
