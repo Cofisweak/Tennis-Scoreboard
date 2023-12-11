@@ -15,22 +15,22 @@ public class PlayerService {
 
     public Player getPlayerOrCreateIfNotExists(String name) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            session.beginTransaction();
-
             Player player;
             try {
+                session.beginTransaction();
                 player = Player.builder()
                         .name(name)
                         .build();
                 session.persist(player);
+                session.getTransaction().commit();
             } catch (ConstraintViolationException ex) {
+                session.getTransaction().rollback();
                 player = new JPAQuery<Player>(session)
                         .select(QPlayer.player)
                         .from(QPlayer.player)
                         .where(QPlayer.player.name.eq(name))
                         .fetchFirst();
             }
-            session.getTransaction().commit();
             return player;
         }
     }

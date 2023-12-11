@@ -34,7 +34,7 @@ public class NewMatchServlet extends HttpServlet {
     }
 
     private PersistMatchDto getNewMatchDto(String firstPlayerName, String secondPlayerName, String setsCountString, HttpServletResponse resp) throws IOException {
-        if (isValidParameters(firstPlayerName, secondPlayerName, setsCountString, resp))
+        if (!isValidParameters(firstPlayerName, secondPlayerName, setsCountString, resp))
             return null;
         int setsCount;
         try {
