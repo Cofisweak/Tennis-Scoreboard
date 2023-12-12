@@ -1,13 +1,12 @@
 package com.cofisweak.service;
 
 import com.cofisweak.model.Player;
-import com.cofisweak.model.QPlayer;
 import com.cofisweak.util.HibernateUtil;
-import com.querydsl.jpa.impl.JPAQuery;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
+import org.hibernate.query.Query;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PlayerService {
@@ -25,11 +24,11 @@ public class PlayerService {
                 session.getTransaction().commit();
             } catch (ConstraintViolationException ex) {
                 session.getTransaction().rollback();
-                player = new JPAQuery<Player>(session)
-                        .select(QPlayer.player)
-                        .from(QPlayer.player)
-                        .where(QPlayer.player.name.eq(name))
-                        .fetchFirst();
+
+                String hql = "SELECT p FROM Player p WHERE p.name = :name";
+                Query<Player> query = session.createQuery(hql, Player.class);
+                query.setParameter("name", name);
+                player = query.getSingleResult();
             }
             return player;
         }

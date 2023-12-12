@@ -1,16 +1,12 @@
 package com.cofisweak.dao;
 
 import com.cofisweak.model.Match;
-import com.cofisweak.model.QMatch;
 import com.cofisweak.util.HibernateUtil;
-import com.querydsl.core.types.ExpressionUtils;
-import com.querydsl.core.types.Predicate;
-import com.querydsl.jpa.impl.JPAQuery;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -32,46 +28,39 @@ public class MatchDao {
 
     public List<Match> loadMatches(int page, String searchQuery) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            List<Predicate> where = getPredicates(searchQuery);
-
-            return new JPAQuery<Match>(session)
-                    .select(QMatch.match)
-                    .from(QMatch.match)
-                    .join(QMatch.match.player1)
-                    .join(QMatch.match.player2)
-                    .join(QMatch.match.winner)
-                    .where(ExpressionUtils.anyOf(where))
-                    .limit(PAGE_SIZE)
-                    .offset((long) PAGE_SIZE * (page - 1))
-                    .fetch();
+            String whereClause = buildWhereClause(searchQuery);
+            String hql = "FROM Match WHERE " + whereClause;
+            Query<Match> query = session.createQuery(hql, Match.class);
+            if (searchQuery != null) {
+                query.setParameter("name", "%" + searchQuery.trim() + "%");
+            }
+            query.setMaxResults(PAGE_SIZE);
+            query.setFirstResult((page - 1) * PAGE_SIZE);
+            return query.list();
         }
-    }
-
-    private static List<Predicate> getPredicates(String searchQuery) {
-        List<Predicate> where = new ArrayList<>();
-        if (searchQuery != null) {
-            where.add(QMatch.match.player1.name.containsIgnoreCase(searchQuery));
-            where.add(QMatch.match.player2.name.containsIgnoreCase(searchQuery));
-        }
-        return where;
     }
 
     public int getPageCountByQuery(String searchQuery) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            List<Predicate> where = getPredicates(searchQuery);
-            Long result = new JPAQuery<Long>(session)
-                    .select(QMatch.match.count())
-                    .from(QMatch.match)
-                    .join(QMatch.match.player1)
-                    .join(QMatch.match.player2)
-                    .join(QMatch.match.winner)
-                    .where(ExpressionUtils.anyOf(where))
-                    .fetchOne();
+            String whereClause = buildWhereClause(searchQuery);
+            String hql = "SELECT COUNT(m) FROM Match m WHERE " + whereClause;
+            Query<Long> query = session.createQuery(hql, Long.class);
+            if (searchQuery != null) {
+                query.setParameter("name", "%" + searchQuery.trim() + "%");
+            }
+            Long result = query.uniqueResult();
             if (result == null) {
                 return 0;
             }
             return (int) Math.ceil((double) result / PAGE_SIZE);
         }
+    }
 
+    private String buildWhereClause(String searchQuery) {
+        if (searchQuery == null) {
+            return "1 = 1";
+        } else {
+            return "player1.name ILIKE :name OR player2.name ILIKE :name";
+        }
     }
 }
