@@ -3,7 +3,8 @@ package com.cofisweak.mapper;
 import com.cofisweak.dto.MatchScoreDto;
 import com.cofisweak.model.Match;
 import com.cofisweak.dto.MatchDto;
-import com.cofisweak.model.MatchStatus;
+import com.cofisweak.model.Player;
+import com.cofisweak.util.MatchUtil;
 import com.cofisweak.util.Utils;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -32,38 +33,46 @@ public class MatchMapper {
         String firstPlayerPointsString = String.valueOf(firstPlayerPoints);
         String secondPlayerPointsString = String.valueOf(secondPlayerPoints);
 
-        if (match.getMatchStatus() != MatchStatus.TIE_BRAKE) {
-            firstPlayerPointsString = Utils.getScoreString(firstPlayerPoints);
-            secondPlayerPointsString = Utils.getScoreString(secondPlayerPoints);
-
+        if (!MatchUtil.isTieBrake(match)) {
             if (firstPlayerPoints > 3 || secondPlayerPoints > 3) {
                 if (firstPlayerPoints > secondPlayerPoints) {
                     firstPlayerPointsString = "AD";
-                } else if(secondPlayerPoints > firstPlayerPoints) {
+                } else if (secondPlayerPoints > firstPlayerPoints) {
                     secondPlayerPointsString = "AD";
                 }
+            } else {
+                firstPlayerPointsString = Utils.getScoreString(firstPlayerPoints);
+                secondPlayerPointsString = Utils.getScoreString(secondPlayerPoints);
             }
         }
 
-        MatchScoreDto.PlayerScoreDto firstPlayerScoreDto = new MatchScoreDto.PlayerScoreDto(
-                String.valueOf(match.getPlayer1().getPlayerScore().getSets()),
-                String.valueOf(match.getPlayer1().getPlayerScore().getGames()),
-                firstPlayerPointsString);
-        MatchScoreDto.PlayerScoreDto secondPlayerScoreDto = new MatchScoreDto.PlayerScoreDto(
-                String.valueOf(match.getPlayer2().getPlayerScore().getSets()),
-                String.valueOf(match.getPlayer2().getPlayerScore().getGames()),
-                secondPlayerPointsString);
+        var firstPlayerScoreDto = getPlayerScoreDto(match.getPlayer1(), firstPlayerPointsString);
+        var secondPlayerScoreDto = getPlayerScoreDto(match.getPlayer2(), secondPlayerPointsString);
 
-        String winnerName = null;
-        if (match.getWinner() != null) {
-            winnerName = match.getWinner().getName();
-        }
-        
-        return new MatchScoreDto(match.getPlayer1().getName(),
-                match.getPlayer2().getName(),
+        String firstPlayerName = match.getPlayer1().getName();
+        String secondPlayerName = match.getPlayer2().getName();
+        String winnerName = getWinnerName(match);
+
+        return new MatchScoreDto(
+                firstPlayerName,
+                secondPlayerName,
                 firstPlayerScoreDto,
                 secondPlayerScoreDto,
                 match.getMatchStatus(),
                 winnerName);
+    }
+
+    private static String getWinnerName(Match match) {
+        if (match.getWinner() != null) {
+            return match.getWinner().getName();
+        }
+        return null;
+    }
+
+    private static MatchScoreDto.PlayerScoreDto getPlayerScoreDto(Player match, String firstPlayerPointsString) {
+        return new MatchScoreDto.PlayerScoreDto(
+                String.valueOf(match.getPlayerScore().getSets()),
+                String.valueOf(match.getPlayerScore().getGames()),
+                firstPlayerPointsString);
     }
 }

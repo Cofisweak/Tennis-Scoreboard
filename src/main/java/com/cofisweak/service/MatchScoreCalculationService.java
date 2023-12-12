@@ -2,6 +2,7 @@ package com.cofisweak.service;
 
 import com.cofisweak.model.*;
 import com.cofisweak.util.MatchConstants;
+import com.cofisweak.util.MatchUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -10,12 +11,12 @@ public class MatchScoreCalculationService {
     private static final MatchScoreCalculationService INSTANCE = new MatchScoreCalculationService();
 
     public void countPoint(Match match, PlayerNumber playerNumber) {
-        if(isMatchFinished(match))
+        if(MatchUtil.isMatchFinished(match))
             return;
 
         Player scoringPlayer = getScoringPlayer(match, playerNumber);
 
-        if (isTieBrake(match)) {
+        if (MatchUtil.isTieBrake(match)) {
             countPointIfTieBrake(match, scoringPlayer);
             return;
         }
@@ -99,14 +100,6 @@ public class MatchScoreCalculationService {
     private void incrementSets(Player scoringPlayer) {
         int sets = scoringPlayer.getPlayerScore().getSets();
         scoringPlayer.getPlayerScore().setSets(sets + 1);
-    }
-
-    private boolean isMatchFinished(Match match) {
-        return match.getMatchStatus() == MatchStatus.FINISHED;
-    }
-
-    private boolean isTieBrake(Match match) {
-        return match.getMatchStatus() == MatchStatus.TIE_BRAKE;
     }
 
     private boolean isGameCompleted(Match match, Player scoringPlayer) {
