@@ -28,43 +28,9 @@ public class Match {
     private Player winner;
 
     @Transient
-    @Setter(AccessLevel.PRIVATE)
-    private PlayerScore firstPlayerScore;
-
-    @Transient
-    @Setter(AccessLevel.PRIVATE)
-    private PlayerScore secondPlayerScore;
-
-    @Transient
-    private MatchStatus matchStatus;
+    @Builder.Default
+    private MatchStatus matchStatus = MatchStatus.ONGOING;
 
     @Transient
     private int maxMatchSets;
-
-    public void resetPoints() {
-        firstPlayerScore.resetPoints();
-        secondPlayerScore.resetPoints();
-    }
-
-    public void resetGames() {
-        firstPlayerScore.resetGames();
-        secondPlayerScore.resetGames();
-    }
-
-    public void startMatch() {
-        firstPlayerScore = new PlayerScore();
-        firstPlayerScore.setPlayer(player1);
-        secondPlayerScore = new PlayerScore();
-        secondPlayerScore.setPlayer(player2);
-
-        matchStatus = MatchStatus.ONGOING;
-    }
-
-    public int getPointsDifference() {
-        return Math.abs(secondPlayerScore.getPoints() - firstPlayerScore.getPoints());
-    }
-
-    public int getGamesDifference() {
-        return Math.abs(secondPlayerScore.getGames() - firstPlayerScore.getGames());
-    }
 }

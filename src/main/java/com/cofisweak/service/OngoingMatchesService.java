@@ -32,7 +32,6 @@ public class OngoingMatchesService {
                 .player1(player1)
                 .player2(player2)
                 .build();
-        match.startMatch();
 
         matches.put(uuid, match);
         return uuid;

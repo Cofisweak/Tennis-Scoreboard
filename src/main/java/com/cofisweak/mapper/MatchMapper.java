@@ -26,8 +26,8 @@ public class MatchMapper {
     }
 
     public static MatchScoreDto mapToMatchScoreDto(Match match) {
-        int firstPlayerPoints = match.getFirstPlayerScore().getPoints();
-        int secondPlayerPoints = match.getSecondPlayerScore().getPoints();
+        int firstPlayerPoints = match.getPlayer1().getPlayerScore().getPoints();
+        int secondPlayerPoints = match.getPlayer2().getPlayerScore().getPoints();
 
         String firstPlayerPointsString = String.valueOf(firstPlayerPoints);
         String secondPlayerPointsString = String.valueOf(secondPlayerPoints);
@@ -46,12 +46,12 @@ public class MatchMapper {
         }
 
         MatchScoreDto.PlayerScoreDto firstPlayerScoreDto = new MatchScoreDto.PlayerScoreDto(
-                String.valueOf(match.getFirstPlayerScore().getSets()),
-                String.valueOf(match.getFirstPlayerScore().getGames()),
+                String.valueOf(match.getPlayer1().getPlayerScore().getSets()),
+                String.valueOf(match.getPlayer1().getPlayerScore().getGames()),
                 firstPlayerPointsString);
         MatchScoreDto.PlayerScoreDto secondPlayerScoreDto = new MatchScoreDto.PlayerScoreDto(
-                String.valueOf(match.getSecondPlayerScore().getSets()),
-                String.valueOf(match.getSecondPlayerScore().getGames()),
+                String.valueOf(match.getPlayer2().getPlayerScore().getSets()),
+                String.valueOf(match.getPlayer2().getPlayerScore().getGames()),
                 secondPlayerPointsString);
 
         String winnerName = null;

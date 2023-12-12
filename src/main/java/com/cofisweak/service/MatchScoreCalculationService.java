@@ -1,9 +1,7 @@
 package com.cofisweak.service;
 
-import com.cofisweak.model.Match;
-import com.cofisweak.model.MatchStatus;
-import com.cofisweak.model.PlayerNumber;
-import com.cofisweak.model.PlayerScore;
+import com.cofisweak.model.*;
+import com.cofisweak.util.MatchConstants;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -11,69 +9,123 @@ import lombok.NoArgsConstructor;
 public class MatchScoreCalculationService {
     private static final MatchScoreCalculationService INSTANCE = new MatchScoreCalculationService();
 
-    private static final int POINTS_TO_WIN_GAME = 4;
-    private static final int POINTS_TO_WIN_TIE_BRAKE = 7;
-    private static final int GAMES_TO_WIN_SET = 7;
-    private static final int GAMES_TO_TIE_BRAKE = 6;
-
     public void countPoint(Match match, PlayerNumber playerNumber) {
-        if(match.getMatchStatus() == MatchStatus.FINISHED)
+        if(isMatchFinished(match))
             return;
 
-        PlayerScore playerScore;
-        if (playerNumber == PlayerNumber.FIRST_PLAYER) {
-            playerScore = match.getFirstPlayerScore();
-        } else {
-            playerScore = match.getSecondPlayerScore();
-        }
+        Player scoringPlayer = getScoringPlayer(match, playerNumber);
 
-        if (match.getMatchStatus() == MatchStatus.TIE_BRAKE) {
-            countPointIfTieBrake(match, playerScore);
+        if (isTieBrake(match)) {
+            countPointIfTieBrake(match, scoringPlayer);
             return;
         }
 
-        playerScore.incrementPoints();
-        if (playerScore.getPoints() >= POINTS_TO_WIN_GAME && match.getPointsDifference() >= 2) {
-            match.resetPoints();
-            countGame(match, playerScore);
+        incrementPoints(scoringPlayer);
+        if (isGameCompleted(match, scoringPlayer)) {
+            resetPoints(match);
+            countGame(match, scoringPlayer);
         }
     }
 
-    private void countPointIfTieBrake(Match match, PlayerScore playerScore) {
-        playerScore.incrementPoints();
-        if (playerScore.getPoints() >= POINTS_TO_WIN_TIE_BRAKE && match.getPointsDifference() >= 2) {
-            match.resetPoints();
+    private void countPointIfTieBrake(Match match, Player scoringPlayer) {
+        incrementPoints(scoringPlayer);
+        if (isTieBrakeCompleted(match, scoringPlayer)) {
+            resetPoints(match);
             match.setMatchStatus(MatchStatus.ONGOING);
-            countGame(match, playerScore);
+            countGame(match, scoringPlayer);
         }
     }
 
-    private void countGame(Match match, PlayerScore playerScore) {
-        playerScore.incrementGames();
-        int games = playerScore.getGames();
+    private void countGame(Match match, Player scoringPlayer) {
+        incrementGames(scoringPlayer);
+        int games = scoringPlayer.getPlayerScore().getGames();
 
-        if (games == GAMES_TO_TIE_BRAKE) {
-            int diff = match.getGamesDifference();
-            if (diff == 0) {
-                match.setMatchStatus(MatchStatus.TIE_BRAKE);
-            } else if (diff >= 2) {
-                match.resetGames();
-                countSet(match, playerScore);
-            }
-        } else if (games == GAMES_TO_WIN_SET) {
-            match.resetGames();
-            countSet(match, playerScore);
+        if (games == MatchConstants.GAMES_TO_TIE_BRAKE) {
+            checkIsTieBrake(match, scoringPlayer);
+        } else if (games == MatchConstants.GAMES_TO_WIN_SET) {
+            resetGames(match);
+            countSet(match, scoringPlayer);
         }
     }
 
-    private void countSet(Match match, PlayerScore playerScore) {
-        playerScore.incrementSets();
-        int sets = playerScore.getSets();
+    private void checkIsTieBrake(Match match, Player scoringPlayer) {
+        int diff = getGamesDifference(match);
+        if (diff == 0) {
+            match.setMatchStatus(MatchStatus.TIE_BRAKE);
+        } else if (diff >= 2) {
+            resetGames(match);
+            countSet(match, scoringPlayer);
+        }
+    }
 
-        if (sets >= match.getMaxMatchSets() / 2 + 1) {
+    private void countSet(Match match, Player scoringPlayer) {
+        incrementSets(scoringPlayer);
+        int sets = scoringPlayer.getPlayerScore().getSets();
+
+        if (isMatchCompleted(match, sets)) {
             match.setMatchStatus(MatchStatus.FINISHED);
-            match.setWinner(playerScore.getPlayer());
+            match.setWinner(scoringPlayer);
         }
+    }
+
+    private int getPointsDifference(Match match) {
+        return Math.abs(match.getPlayer2().getPlayerScore().getPoints() - match.getPlayer1().getPlayerScore().getPoints());
+    }
+
+    private int getGamesDifference(Match match) {
+        return Math.abs(match.getPlayer2().getPlayerScore().getGames() - match.getPlayer1().getPlayerScore().getGames());
+    }
+
+    private void resetPoints(Match match) {
+        match.getPlayer1().getPlayerScore().setPoints(0);
+        match.getPlayer2().getPlayerScore().setPoints(0);
+    }
+
+    private void resetGames(Match match) {
+        match.getPlayer1().getPlayerScore().setGames(0);
+        match.getPlayer2().getPlayerScore().setGames(0);
+    }
+
+    private void incrementPoints(Player scoringPlayer) {
+        int points = scoringPlayer.getPlayerScore().getPoints();
+        scoringPlayer.getPlayerScore().setPoints(points + 1);
+    }
+
+    private void incrementGames(Player scoringPlayer) {
+        int games = scoringPlayer.getPlayerScore().getGames();
+        scoringPlayer.getPlayerScore().setGames(games + 1);
+    }
+
+    private void incrementSets(Player scoringPlayer) {
+        int sets = scoringPlayer.getPlayerScore().getSets();
+        scoringPlayer.getPlayerScore().setSets(sets + 1);
+    }
+
+    private boolean isMatchFinished(Match match) {
+        return match.getMatchStatus() == MatchStatus.FINISHED;
+    }
+
+    private boolean isTieBrake(Match match) {
+        return match.getMatchStatus() == MatchStatus.TIE_BRAKE;
+    }
+
+    private boolean isGameCompleted(Match match, Player scoringPlayer) {
+        return scoringPlayer.getPlayerScore().getPoints() >= MatchConstants.POINTS_TO_WIN_GAME && getPointsDifference(match) >= 2;
+    }
+
+    private boolean isTieBrakeCompleted(Match match, Player scoringPlayer) {
+        return scoringPlayer.getPlayerScore().getPoints() >= MatchConstants.POINTS_TO_WIN_TIE_BRAKE && getPointsDifference(match) >= 2;
+    }
+
+    private boolean isMatchCompleted(Match match, int sets) {
+        return sets >= match.getMaxMatchSets() / 2 + 1;
+    }
+
+    private Player getScoringPlayer(Match match, PlayerNumber playerNumber) {
+        return switch (playerNumber) {
+            case FIRST_PLAYER -> match.getPlayer1();
+            case SECOND_PLAYER -> match.getPlayer2();
+        };
     }
 
     public static MatchScoreCalculationService getInstance() {

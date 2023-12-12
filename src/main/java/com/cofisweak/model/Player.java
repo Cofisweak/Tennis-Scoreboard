@@ -19,4 +19,8 @@ public class Player {
 
     @Column(unique = true, nullable = false)
     private String name;
+
+    @Transient
+    @Builder.Default
+    private PlayerScore playerScore = new PlayerScore();
 }
