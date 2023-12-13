@@ -3,12 +3,8 @@ package com.cofisweak.service;
 import com.cofisweak.model.*;
 import com.cofisweak.util.MatchConstants;
 import com.cofisweak.util.MatchUtil;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MatchScoreCalculationService {
-    private static final MatchScoreCalculationService INSTANCE = new MatchScoreCalculationService();
 
     public void countPoint(Match match, PlayerNumber playerNumber) {
         if(MatchUtil.isMatchFinished(match))
@@ -119,9 +115,5 @@ public class MatchScoreCalculationService {
             case FIRST_PLAYER -> match.getPlayer1();
             case SECOND_PLAYER -> match.getPlayer2();
         };
-    }
-
-    public static MatchScoreCalculationService getInstance() {
-        return INSTANCE;
     }
 }

@@ -2,16 +2,12 @@ package com.cofisweak.dao;
 
 import com.cofisweak.model.Match;
 import com.cofisweak.util.HibernateUtil;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
 import java.util.List;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MatchDao {
-    private static final MatchDao INSTANCE = new MatchDao();
     private static final int PAGE_SIZE = 2;
 
     public void persistMatch(Match match) {
@@ -20,10 +16,6 @@ public class MatchDao {
             session.persist(match);
             session.getTransaction().commit();
         }
-    }
-
-    public static MatchDao getInstance() {
-        return INSTANCE;
     }
 
     public List<Match> loadMatches(int page, String searchQuery) {

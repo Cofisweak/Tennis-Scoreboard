@@ -12,7 +12,7 @@ import java.io.IOException;
 
 @WebServlet("/matches")
 public class MatchesServlet extends HttpServlet {
-    private final transient FinishedMatchesPersistenceService finishedMatchesPersistenceService = FinishedMatchesPersistenceService.getInstance();
+    private final transient FinishedMatchesPersistenceService finishedMatchesPersistenceService = new FinishedMatchesPersistenceService();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String searchQuery = req.getParameter("filter_by_player_name");

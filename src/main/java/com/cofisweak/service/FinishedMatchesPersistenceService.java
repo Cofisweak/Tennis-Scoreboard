@@ -5,15 +5,11 @@ import com.cofisweak.mapper.MatchMapper;
 import com.cofisweak.model.Match;
 import com.cofisweak.dto.MatchDto;
 import com.cofisweak.dto.MatchesDto;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FinishedMatchesPersistenceService {
-    private static final FinishedMatchesPersistenceService INSTANCE = new FinishedMatchesPersistenceService();
-    private final MatchDao matchDao = MatchDao.getInstance();
+    private final MatchDao matchDao = new MatchDao();
 
     public void persistMatch(Match match) {
         matchDao.persistMatch(match);
@@ -28,9 +24,5 @@ public class FinishedMatchesPersistenceService {
                 page,
                 searchQuery,
                 pageCount);
-    }
-
-    public static FinishedMatchesPersistenceService getInstance() {
-        return INSTANCE;
     }
 }

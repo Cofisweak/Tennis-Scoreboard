@@ -20,7 +20,7 @@ import java.util.UUID;
 
 @WebServlet("/match-score")
 public class MatchScoreServlet extends HttpServlet {
-    private final transient MatchScoreCalculationService matchScoreCalculationService = MatchScoreCalculationService.getInstance();
+    private final transient MatchScoreCalculationService matchScoreCalculationService = new MatchScoreCalculationService();
     private final transient OngoingMatchesService ongoingMatchesService = OngoingMatchesService.getInstance();
 
     private static final String PLAYER_1_ID = "1";

@@ -14,8 +14,8 @@ import java.util.concurrent.ConcurrentMap;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class OngoingMatchesService {
     private static final OngoingMatchesService INSTANCE = new OngoingMatchesService();
-    private final FinishedMatchesPersistenceService finishedMatchesPersistenceService = FinishedMatchesPersistenceService.getInstance();
-    private final PlayerService playerService = PlayerService.getInstance();
+    private final FinishedMatchesPersistenceService finishedMatchesPersistenceService = new FinishedMatchesPersistenceService();
+    private final PlayerService playerService = new PlayerService();
     private final ConcurrentMap<UUID, Match> matches = new ConcurrentHashMap<>();
 
     public Optional<Match> getMatch(UUID uuid) {
