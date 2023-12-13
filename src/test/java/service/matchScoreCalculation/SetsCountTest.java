@@ -11,7 +11,7 @@ public class SetsCountTest {
     MatchScoreCalculationService service = new MatchScoreCalculationService();
 
     @Test
-    public void test_whenPlayer1HaveNecessaryScoreToWinSetWithout1PointAndScoresPointAndPlayer2HaveLessThanSixGames_thenIncreaseSet() {
+    public void whenPlayer1HaveNecessaryScoreToWinSetWithout1PointAndScoresPointAndPlayer2HaveLessThanSixGamesThenIncreaseSet() {
         Match match = build3SetsMatch();
         PlayerScore playerScore1 = match.getPlayer1().getPlayerScore();
         PlayerScore playerScore2 = match.getPlayer2().getPlayerScore();
@@ -27,7 +27,7 @@ public class SetsCountTest {
     }
 
     @Test
-    public void test_whenPlayer1Have6GamesAndPlayer2Scores6Game_thenNoIncreaseSetAndStartTieBrake() {
+    public void whenPlayer1Have6GamesAndPlayer2Scores6GameThenNoIncreaseSetAndStartTieBrake() {
         Match match = build3SetsMatch();
         PlayerScore playerScore1 = match.getPlayer1().getPlayerScore();
         PlayerScore playerScore2 = match.getPlayer2().getPlayerScore();
@@ -44,7 +44,7 @@ public class SetsCountTest {
     }
 
     @Test
-    public void test_whenPlayer1Scores2SetIn3SetsMatch_thenGameFinish() {
+    public void whenPlayer1Scores2SetIn3SetsMatchThenGameFinish() {
         Match match = build3SetsMatch();
         PlayerScore playerScore1 = match.getPlayer1().getPlayerScore();
 
@@ -59,7 +59,7 @@ public class SetsCountTest {
     }
 
     @Test
-    public void test_whenPlayer1Scores3SetIn5SetsMatch_thenGameFinish() {
+    public void whenPlayer1Scores3SetIn5SetsMatchThenGameFinish() {
         Match match = build5SetsMatch();
         PlayerScore playerScore1 = match.getPlayer1().getPlayerScore();
 

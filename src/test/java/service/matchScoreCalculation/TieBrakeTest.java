@@ -24,7 +24,7 @@ public class TieBrakeTest {
     }
 
     @Test
-    public void test_whenPlayer2HaveNecessaryPointsToWinTieBrakeWithout1PointAndScoresPoint_thenTieBrakeFinishAndScoresSet() {
+    public void whenPlayer2HaveNecessaryPointsToWinTieBrakeWithout1PointAndScoresPointThenTieBrakeFinishAndScoresSet() {
         match.setMatchStatus(MatchStatus.TIE_BRAKE);
         PlayerScore playerScore1 = match.getPlayer1().getPlayerScore();
         PlayerScore playerScore2 = match.getPlayer2().getPlayerScore();
@@ -40,7 +40,7 @@ public class TieBrakeTest {
     }
 
     @Test
-    public void test_whenPlayer1HaveNecessaryPointsToWinTieBrakeWithout1PointAndScoresPointAndPlayer2HaveSameScore_thenTieBrakeNoFinish() {
+    public void whenPlayer1HaveNecessaryPointsToWinTieBrakeWithout1PointAndScoresPointAndPlayer2HaveSameScoreThenTieBrakeNoFinish() {
         match.setMatchStatus(MatchStatus.TIE_BRAKE);
         PlayerScore playerScore1 = match.getPlayer1().getPlayerScore();
         PlayerScore playerScore2 = match.getPlayer2().getPlayerScore();
@@ -56,7 +56,7 @@ public class TieBrakeTest {
     }
 
     @Test
-    public void test_whenPlayer1HaveAdvantageAndScoresPoint_thenTieBrakeFinishAndScoresSet() {
+    public void whenPlayer1HaveAdvantageAndScoresPointThenTieBrakeFinishAndScoresSet() {
         match.setMatchStatus(MatchStatus.TIE_BRAKE);
         PlayerScore playerScore1 = match.getPlayer1().getPlayerScore();
         PlayerScore playerScore2 = match.getPlayer2().getPlayerScore();

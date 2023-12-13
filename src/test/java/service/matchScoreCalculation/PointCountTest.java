@@ -24,7 +24,7 @@ public class PointCountTest {
     }
 
     @Test
-    public void test_whenPlayer2ScoresPoint_thenIncreaseScore() {
+    public void whenPlayer2ScoresPointThenIncreaseScore() {
         Player player1 = match.getPlayer1();
         Player player2 = match.getPlayer2();
 
@@ -35,7 +35,7 @@ public class PointCountTest {
     }
 
     @Test
-    public void test_whenPlayer1ScoresPoint_thenIncreaseScore() {
+    public void whenPlayer1ScoresPointThenIncreaseScore() {
         Player player1 = match.getPlayer1();
         Player player2 = match.getPlayer2();
 

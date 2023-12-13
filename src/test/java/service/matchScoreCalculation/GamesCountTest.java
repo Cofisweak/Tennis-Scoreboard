@@ -26,7 +26,7 @@ public class GamesCountTest {
     }
 
     @Test
-    public void test_whenPlayer1Have3PointsAndScoresPointAndPlayer2NoHaveAdvantage_thenIncreaseGame() {
+    public void whenPlayer1Have3PointsAndScoresPointAndPlayer2NoHaveAdvantageThenIncreaseGame() {
         PlayerScore playerScore1 = match.getPlayer1().getPlayerScore();
         playerScore1.setPoints(MatchConstants.POINTS_TO_WIN_GAME - 1);
 
@@ -37,7 +37,7 @@ public class GamesCountTest {
     }
 
     @Test
-    public void test_whenPlayer1Have3PointsAndScoresPointAndAnotherPlayerHave3Points_thenNoIncreaseGame() {
+    public void whenPlayer1Have3PointsAndScoresPointAndAnotherPlayerHave3PointsThenNoIncreaseGame() {
         PlayerScore playerScore1 = match.getPlayer1().getPlayerScore();
         PlayerScore playerScore2 = match.getPlayer2().getPlayerScore();
 
@@ -51,7 +51,7 @@ public class GamesCountTest {
     }
 
     @Test
-    public void test_whenPlayer1NoHaveAdvantageAndAnotherPlayerHaveAdvantageAndScoresPoint_thenIncreaseGame() {
+    public void whenPlayer1NoHaveAdvantageAndAnotherPlayerHaveAdvantageAndScoresPointThenIncreaseGame() {
         PlayerScore playerScore1 = match.getPlayer1().getPlayerScore();
         PlayerScore playerScore2 = match.getPlayer2().getPlayerScore();
 
