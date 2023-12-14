@@ -13,7 +13,7 @@ public class TieBrakeTest {
     Match match;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         Player player1 = new Player();
         Player player2 = new Player();
         match = Match.builder()
@@ -24,7 +24,7 @@ public class TieBrakeTest {
     }
 
     @Test
-    public void whenPlayer2HaveNecessaryPointsToWinTieBrakeWithout1PointAndScoresPointThenTieBrakeFinishAndScoresSet() {
+    void whenPlayer2HaveNecessaryPointsToWinTieBrakeWithout1PointAndScoresPointThenTieBrakeFinishAndScoresSet() {
         match.setMatchStatus(MatchStatus.TIE_BRAKE);
         PlayerScore playerScore1 = match.getPlayer1().getPlayerScore();
         PlayerScore playerScore2 = match.getPlayer2().getPlayerScore();
@@ -40,7 +40,7 @@ public class TieBrakeTest {
     }
 
     @Test
-    public void whenPlayer1HaveNecessaryPointsToWinTieBrakeWithout1PointAndScoresPointAndPlayer2HaveSameScoreThenTieBrakeNoFinish() {
+    void whenPlayer1HaveNecessaryPointsToWinTieBrakeWithout1PointAndScoresPointAndPlayer2HaveSameScoreThenTieBrakeNoFinish() {
         match.setMatchStatus(MatchStatus.TIE_BRAKE);
         PlayerScore playerScore1 = match.getPlayer1().getPlayerScore();
         PlayerScore playerScore2 = match.getPlayer2().getPlayerScore();
@@ -56,7 +56,7 @@ public class TieBrakeTest {
     }
 
     @Test
-    public void whenPlayer1HaveAdvantageAndScoresPointThenTieBrakeFinishAndScoresSet() {
+    void whenPlayer1HaveAdvantageAndScoresPointThenTieBrakeFinishAndScoresSet() {
         match.setMatchStatus(MatchStatus.TIE_BRAKE);
         PlayerScore playerScore1 = match.getPlayer1().getPlayerScore();
         PlayerScore playerScore2 = match.getPlayer2().getPlayerScore();

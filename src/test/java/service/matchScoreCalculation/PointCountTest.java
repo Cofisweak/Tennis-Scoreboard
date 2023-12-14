@@ -13,7 +13,7 @@ public class PointCountTest {
     Match match;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         Player player1 = new Player();
         Player player2 = new Player();
         match = Match.builder()
@@ -24,7 +24,7 @@ public class PointCountTest {
     }
 
     @Test
-    public void whenPlayer2ScoresPointThenIncreaseScore() {
+    void whenPlayer2ScoresPointThenIncreaseScore() {
         Player player1 = match.getPlayer1();
         Player player2 = match.getPlayer2();
 
@@ -35,7 +35,7 @@ public class PointCountTest {
     }
 
     @Test
-    public void whenPlayer1ScoresPointThenIncreaseScore() {
+    void whenPlayer1ScoresPointThenIncreaseScore() {
         Player player1 = match.getPlayer1();
         Player player2 = match.getPlayer2();
 
