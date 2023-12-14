@@ -3,8 +3,8 @@ package service.matchScoreCalculation;
 import com.cofisweak.model.*;
 import com.cofisweak.service.MatchScoreCalculationService;
 import com.cofisweak.util.MatchConstants;
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class SetsCountTest {
 

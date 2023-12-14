@@ -3,16 +3,16 @@ package service.matchScoreCalculation;
 import com.cofisweak.model.*;
 import com.cofisweak.service.MatchScoreCalculationService;
 import com.cofisweak.util.MatchConstants;
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class TieBrakeTest {
 
     MatchScoreCalculationService service = new MatchScoreCalculationService();
     Match match;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         Player player1 = new Player();
         Player player2 = new Player();

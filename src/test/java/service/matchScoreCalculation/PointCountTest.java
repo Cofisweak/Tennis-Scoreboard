@@ -4,15 +4,15 @@ import com.cofisweak.model.Match;
 import com.cofisweak.model.Player;
 import com.cofisweak.model.PlayerNumber;
 import com.cofisweak.service.MatchScoreCalculationService;
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class PointCountTest {
     MatchScoreCalculationService service = new MatchScoreCalculationService();
     Match match;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         Player player1 = new Player();
         Player player2 = new Player();
