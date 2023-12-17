@@ -1,9 +1,14 @@
 # Tennis Scoreboard
 A web application that implements a scoreboard for a tennis match.
 
+### Used technologies
+1. Database: H2, Hibernate
+2. Web-server: Tomcat 10
+3. Front-end: JSP, HTML, CSS
+
 ### Deployment
 - Install H2 database
-- Install Tomcat
+- Install Tomcat 10
 - Configure hibernate.cfg.xml
     - set url
     - set username
